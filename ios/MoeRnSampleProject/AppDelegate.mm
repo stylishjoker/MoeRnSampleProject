@@ -6,6 +6,8 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+#import <ReactNativeMoEngage/MOReactInitializer.h>
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -40,6 +42,11 @@
   _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc] initWithBridge:bridge contextContainer:_contextContainer];
   bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
+
+  // MoEngage start
+  [MoEngage setDataCenter:DATA_CENTER_01];
+  [[MOReactInitializer sharedInstance] intializeSDKWithLaunchOptions:launchOptions];
+  // MoEngage end
 
   UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"MoeRnSampleProject", nil);
 
