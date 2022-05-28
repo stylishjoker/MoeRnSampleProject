@@ -19,6 +19,8 @@ target 'MoeRnSampleProject' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'ReactNativeMoEngage', :path => '../node_modules/react-native-moengage'
+
   target 'MoeRnSampleProjectTests' do
     inherit! :complete
     # Pods for testing
