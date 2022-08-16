@@ -1,5 +1,7 @@
+import messaging from '@react-native-firebase/messaging';
 import React, {useEffect} from 'react';
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -16,6 +18,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {isPushFromMoEngage} from './src/utils/moengage-util';
 
 const Section: React.FC<{
   title: string;
@@ -45,11 +48,39 @@ const Section: React.FC<{
   );
 };
 
+const registerRemoteNotification = async () => {
+  const isDeviceRegisteredForRemoteMessages =
+    messaging().isDeviceRegisteredForRemoteMessages;
+  if (!isDeviceRegisteredForRemoteMessages || Platform.OS === 'android') {
+    await messaging().registerDeviceForRemoteMessages();
+
+    const token = await messaging().getToken();
+    ReactMoE.passFcmPushToken(token);
+    console.log(`Push token is: ${token}`);
+  }
+};
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
     ReactMoE.initialize();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      if (isPushFromMoEngage(remoteMessage)) {
+        ReactMoE.passFcmPushPayload(remoteMessage.data!);
+        console.log(`Nam ${JSON.stringify(remoteMessage.data)}`);
+        return;
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    registerRemoteNotification();
   }, []);
 
   const backgroundStyle = {
