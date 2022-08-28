@@ -17,6 +17,9 @@ import java.util.List;
 
 import com.moengage.core.MoEngage;
 import com.moengage.react.MoEInitializer;
+import com.moengage.core.config.LogConfig;
+import com.moengage.core.LogLevel;
+import com.moengage.core.config.NotificationConfig;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -56,14 +59,20 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        // If you opted-in for the New Architecture, we enable the TurboModule system
-        MoEngage.Builder moEngage =
-                new MoEngage.Builder(this, "E45LEHUICFJ7FV1NY84S31J0");
-        MoEInitializer.INSTANCE.initialize(getApplicationContext(), moEngage);
+        configureMoEngage();
 
+        // If you opted-in for the New Architecture, we enable the TurboModule system
         ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
         SoLoader.init(this, /* native exopackage */ false);
         initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    }
+
+    private void configureMoEngage() {
+        MoEngage.Builder moEngage =
+                new MoEngage.Builder(this, "ODG364GC2UOEWDTAXOOG4PJK")
+                    .configureNotificationMetaData(new NotificationConfig(R.drawable.rn_edit_text_material, R.drawable.rn_edit_text_material, R.color.red, null, true, true, true))
+                    .configureLogs(new LogConfig(LogLevel.VERBOSE, false));
+        MoEInitializer.INSTANCE.initialize(getApplicationContext(), moEngage);
     }
 
     /**
