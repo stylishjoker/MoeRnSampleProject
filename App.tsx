@@ -18,6 +18,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {useMoeTrackInstallUpdate} from './src/hooks/useMoeTrackInstallUpdate';
 import {isPushFromMoEngage} from './src/utils/moengage-util';
 
 const Section: React.FC<{
@@ -66,6 +67,8 @@ const App = () => {
   useEffect(() => {
     ReactMoE.initialize();
   }, []);
+
+  useMoeTrackInstallUpdate();
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
