@@ -1,5 +1,5 @@
 import messaging from '@react-native-firebase/messaging';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -18,7 +18,12 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {useMoeSelfHandledInApp} from './src/hooks/useMoeSelfHandledInApp';
 import {useMoeTrackInstallUpdate} from './src/hooks/useMoeTrackInstallUpdate';
+import {
+  SampleSelfHandledModal,
+  SampleSelfHandledModalProps,
+} from './src/modals/sample-self-handled-modal';
 import {isPushFromMoEngage} from './src/utils/moengage-util';
 
 const Section: React.FC<{
@@ -63,18 +68,37 @@ const registerRemoteNotification = async () => {
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [modalVisible, setModalVisible] = useState<SampleSelfHandledModalProps>(
+    {
+      visible: false,
+      title: '',
+    },
+  );
 
   useEffect(() => {
     ReactMoE.initialize();
+    ReactMoE.showInApp();
+    ReactMoE.getSelfHandledInApp();
   }, []);
 
   useMoeTrackInstallUpdate();
+  useMoeSelfHandledInApp(payload => {
+    setModalVisible({
+      visible: true,
+      title: payload.title,
+      onDismissPress: () => {
+        setModalVisible({
+          visible: false,
+          title: '',
+        });
+      },
+    });
+  });
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       if (isPushFromMoEngage(remoteMessage)) {
         ReactMoE.passFcmPushPayload(remoteMessage.data!);
-        console.log(`Nam ${JSON.stringify(remoteMessage.data)}`);
         return;
       }
     });
@@ -92,6 +116,11 @@ const App = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
+      <SampleSelfHandledModal
+        visible={modalVisible.visible}
+        onDismissPress={() => modalVisible.onDismissPress?.()}
+        title={modalVisible.title}
+      />
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"

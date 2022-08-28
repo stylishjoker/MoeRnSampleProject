@@ -13,7 +13,6 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);
   if (isPushFromMoEngage(remoteMessage)) {
     ReactMoE.passFcmPushPayload(remoteMessage.data);
-    console.log(`Nam ${JSON.stringify(remoteMessage.data)}`);
     return;
   }
 });
