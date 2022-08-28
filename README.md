@@ -8,7 +8,7 @@ https://excellent-estimate-fc9.notion.site/Integrate-MoEngage-SDK-for-React-Nati
 ## List of works:
 - [x] Android integration
 - [x] iOS integration
-- [ ] Android push notification
+- [x] Android push notification
 - [ ] iOS push notification
 - [ ] Login/Logout tracking
 
