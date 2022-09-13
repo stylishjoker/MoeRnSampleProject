@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ReactMoE, {MoEAppStatus} from 'react-native-moengage';
-import {getBuildNumber} from 'react-native-device-info';
-import {isNumber} from '../utils/moengage-util';
-import {useEffect} from 'react';
+import ReactMoE, { MoEAppStatus } from 'react-native-moengage';
+import { getBuildNumber } from 'react-native-device-info';
+import { isNumber } from '../utils/moengage-util';
+import { useEffect } from 'react';
 
 export const useMoeTrackInstallUpdate = () => {
   useEffect(() => {
@@ -46,14 +46,14 @@ export const useMoeTrackInstallUpdate = () => {
 };
 
 const onSavedBuildNumberIsNull = async () => {
+  console.info(`Tracking new app install`);
   ReactMoE.setAppStatus(MoEAppStatus.Install);
   const buildNumber = getBuildNumber();
-  console.log(`onSavedBuildNumberIsNull: ${buildNumber}`);
   await AsyncStorage.setItem(MOE_BUILD_NUMBER_KEY, buildNumber);
 };
 
 const onAppUpgraded = async (savedBuildNumber: number, buildNumber: number) => {
-  console.log(`onAppUpgraded: ${savedBuildNumber} -> ${buildNumber}`);
+  console.info(`Tracking app upgrade from ${savedBuildNumber} to ${buildNumber}`);
   ReactMoE.setAppStatus(MoEAppStatus.Update);
   await AsyncStorage.setItem(MOE_BUILD_NUMBER_KEY, buildNumber.toString());
 };
@@ -62,7 +62,7 @@ const onAppDowngraded = async (
   savedBuildNumber: number,
   buildNumber: number,
 ) => {
-  console.log(`onAppDowngraded: ${savedBuildNumber} -> ${buildNumber}`);
+  console.info(`Tracking app downgrade from ${savedBuildNumber} to ${buildNumber}`);
   await AsyncStorage.setItem(MOE_BUILD_NUMBER_KEY, buildNumber.toString());
 };
 
