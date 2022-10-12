@@ -1,16 +1,12 @@
 import messaging from '@react-native-firebase/messaging';
-import React, { useEffect } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {Platform, StyleSheet, View} from 'react-native';
 import ReactMoE from 'react-native-moengage';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import store from './src/app/store';
 import Counter from './src/features/counter/Counter';
-import { useMoeTrackInstallUpdate } from './src/hooks/useMoeTrackInstallUpdate';
-import { isPushFromMoEngage } from './src/utils/moengage-util';
+import {useMoeTrackInstallUpdate} from './src/hooks/useMoeTrackInstallUpdate';
+import {isPushFromMoEngage} from './src/utils/moengage-util';
 
 const registerRemoteNotification = async () => {
   const isDeviceRegisteredForRemoteMessages =
@@ -27,6 +23,7 @@ const registerRemoteNotification = async () => {
 const App = () => {
   useEffect(() => {
     ReactMoE.initialize();
+    ReactMoE.showInApp();
   }, []);
 
   useMoeTrackInstallUpdate();
