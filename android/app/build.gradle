@@ -265,7 +265,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // moengage
-    implementation("com.moengage:moe-android-sdk:11.6.01")
+    implementation("com.moengage:moe-android-sdk:12.3.02")
     implementation("androidx.lifecycle:lifecycle-process:2.2.0")
 
     //noinspection GradleDynamicVersion

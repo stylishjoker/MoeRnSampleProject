@@ -22,7 +22,7 @@ const registerRemoteNotification = async () => {
 
 const App = () => {
   useEffect(() => {
-    ReactMoE.initialize();
+    ReactMoE.initialize('ODG364GC2UOEWDTAXOOG4PJK');
     ReactMoE.showInApp();
   }, []);
 

@@ -70,9 +70,9 @@ public class MainApplication extends Application implements ReactApplication {
     private void configureMoEngage() {
         MoEngage.Builder moEngage =
                 new MoEngage.Builder(this, "ODG364GC2UOEWDTAXOOG4PJK")
-                    .configureNotificationMetaData(new NotificationConfig(R.drawable.rn_edit_text_material, R.drawable.rn_edit_text_material, R.color.red, null, true, true, true))
-                    .configureLogs(new LogConfig(LogLevel.VERBOSE, false));
-        MoEInitializer.INSTANCE.initialize(getApplicationContext(), moEngage);
+                        .configureNotificationMetaData(new NotificationConfig(R.drawable.rn_edit_text_material, R.drawable.rn_edit_text_material, R.color.red, true, true, true))
+                        .configureLogs(new LogConfig(LogLevel.VERBOSE, false));
+        MoEInitializer.INSTANCE.initializeDefaultInstance(getApplicationContext(), moEngage);
     }
 
     /**

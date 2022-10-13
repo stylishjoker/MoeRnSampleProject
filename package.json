@@ -17,7 +17,7 @@
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-device-info": "^10.0.2",
-    "react-native-moengage": "^7.4.0",
+    "react-native-moengage": "^8.0.0",
     "react-redux": "^8.0.2"
   },
   "devDependencies": {
