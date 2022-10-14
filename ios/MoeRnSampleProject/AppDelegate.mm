@@ -6,7 +6,7 @@
 
 #import <React/RCTAppSetupUtils.h>
 
-#import <ReactNativeMoEngage/MOReactInitializer.h>
+#import <ReactNativeMoEngage/MoEngageInitializer.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -44,8 +44,7 @@
 #endif
 
   // MoEngage start
-  [MoEngage setDataCenter:DATA_CENTER_01];
-  [[MOReactInitializer sharedInstance] intializeSDKWithLaunchOptions:launchOptions];
+  [[MoEngageInitializer sharedInstance] initializeDefaultInstance:launchOptions];
   // MoEngage end
 
   UIView *rootView = RCTAppSetupDefaultRootView(bridge, @"MoeRnSampleProject", nil);

@@ -23,10 +23,5 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-<!--      <activity-->
-<!--        android:name="com.moe.pushlibrary.activities.MoEActivity"-->
-<!--        android:label="RichLandingActivity"-->
-<!--        android:parentActivityName=".MainActivity" >-->
-<!--      </activity>-->
     </application>
 </manifest>
