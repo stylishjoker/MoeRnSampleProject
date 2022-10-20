@@ -1,67 +1,57 @@
-import messaging from '@react-native-firebase/messaging';
-import React, { useEffect } from 'react';
+import React from "react";
 import {
-  Platform,
+  // Platform,
   StyleSheet,
+  ImageBackground,
   View,
 } from 'react-native';
-import ReactMoE from 'react-native-moengage';
+import { NavigationContainer, NavigationProp, NavigatorScreenParams } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import store from './src/app/store';
-import Counter from './src/features/counter/Counter';
-import { useMoeTrackInstallUpdate } from './src/hooks/useMoeTrackInstallUpdate';
-import { isPushFromMoEngage } from './src/utils/moengage-util';
+import Login from './src/components/Layout/Login';
+import NewButton from "./src/components/components-child/Button";
+import Register from "./src/components/Layout/Register";
+const Stack = createNativeStackNavigator();
 
-const registerRemoteNotification = async () => {
-  const isDeviceRegisteredForRemoteMessages =
-    messaging().isDeviceRegisteredForRemoteMessages;
-  if (!isDeviceRegisteredForRemoteMessages || Platform.OS === 'android') {
-    await messaging().registerDeviceForRemoteMessages();
+const HomeScreen = ({ navigation }: any) => {
+  return (
+    <ImageBackground source={require('./src/assets/background/background.jpg')} resizeMode="cover">
+      <View style={styles.container}>
+        <Login />
+        <View style={{ height: 40 }}></View>
+        <NewButton color="#333" bgColor="white" title="Sign Up" callback={() => navigation.navigate('Register')} ></NewButton>
+      </View>
+    </ImageBackground>
+  )
+}
 
-    const token = await messaging().getToken();
-    ReactMoE.passFcmPushToken(token);
-    console.info(`Push token is: ${token}`);
-  }
-};
-
+const RegiterScreen = () => {
+  return (
+    <Register />
+  )
+}
 const App = () => {
-  useEffect(() => {
-    ReactMoE.initialize();
-  }, []);
-
-  useMoeTrackInstallUpdate();
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      if (isPushFromMoEngage(remoteMessage)) {
-        ReactMoE.passFcmPushPayload(remoteMessage.data!);
-        console.log(`Nam ${JSON.stringify(remoteMessage.data)}`);
-        return;
-      }
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    registerRemoteNotification();
-  }, []);
-
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <Counter />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Register' component={RegiterScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
   },
 });
 
